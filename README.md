@@ -1,94 +1,44 @@
-# YT NAMES GENERATOR — Vercel Edition
+# YT Names Generator (Vercel + Gemini)
 
-This version is structured for **GitHub → Vercel deployment**. Each successful generation returns exactly 10 names; desktop results use a 5-column grid (2 rows). It uses Vercel serverless functions, so there is no Express server to keep running.
+A static YouTube channel-name generator frontend with Vercel serverless API routes. It uses Google's Gemini API on the server, so the API key is not exposed in browser code.
 
-## Project structure
+## Features
 
-```text
-/
-├── api/
-│   ├── config.js
-│   ├── generate.js
-│   └── check-handles.js
-├── lib/
-│   └── shared.js
-├── index.html
-├── style.css
-├── app.js
-├── package.json
-├── vercel.json
-└── .gitignore
-```
+- Category, style, and one/two/three-word controls
+- Generates exactly 10 names per successful request
+- Responsive results grid (5 columns × 2 rows on wide screens)
+- Optional YouTube handle availability checks
+- Dark/light theme
+- Gemini API key stored as a Vercel environment variable
 
-## 1. Upload to GitHub
+## Deploy to Vercel
 
-1. Extract this ZIP.
-2. Create a new GitHub repository.
-3. Upload the **contents** of the extracted folder (not an extra parent folder).
-4. Make sure `api/`, `lib/`, `index.html`, `style.css`, `app.js`, and `package.json` are at the repository root.
-5. Do not upload your real API key or a `.env` file.
+1. Upload these project files to a GitHub repository.
+2. Import the repository into Vercel.
+3. In Vercel, open **Project → Settings → Environment Variables**.
+4. Add:
+   - **Name:** `GEMINI_API_KEY`
+   - **Value:** your Google AI Studio Gemini API key
+   - **Environments:** Production, Preview, and Development as needed
+5. Optionally add:
+   - **Name:** `GEMINI_MODEL`
+   - **Value:** `gemini-flash-latest`
+6. Save the variables and trigger a new deployment (Deployments → latest deployment → Redeploy, or push a new commit).
 
-## 2. Import into Vercel
+Do not add the API key to frontend files or commit it to GitHub. Never share the key in screenshots or chats. If a key is exposed, revoke it and create a replacement.
 
-1. Open https://vercel.com/new
-2. Import your GitHub repository.
-3. Framework Preset: **Other**.
-4. Build Command: leave empty.
-5. Output Directory: leave empty.
-6. Install Command: `npm install`.
-7. Deploy.
-
-Vercel automatically detects the functions inside `/api`.
-
-## 3. Add your OpenAI secret in Vercel
-
-After importing (or before redeploying):
-
-1. Open your Vercel project.
-2. Go to **Settings → Environment Variables**.
-3. Add:
-
-   - Name: `OPENAI_API_KEY`
-   - Value: your actual OpenAI API key
-   - Environments: Production, Preview, and Development (select the ones you need)
-
-4. Optional second variable:
-
-   - Name: `OPENAI_MODEL`
-   - Value: `gpt-4.1-mini`
-
-5. Save, then go to **Deployments** and redeploy the latest deployment so the function receives the new variables.
-
-**Never put the secret in `app.js`, `index.html`, or any `NEXT_PUBLIC_` / `VITE_` variable.** The browser only calls your `/api` endpoints; the OpenAI key remains server-side.
-
-## 4. Local development (optional)
-
-Requires Node.js 18+.
+## Local development
 
 ```bash
 npm install
+npx vercel dev
 ```
 
-Copy `.env.example` to `.env`, add your key, then run:
-
-```bash
-npm run dev
-```
-
-Vercel CLI will start a local development server. Open the local URL it prints.
-
-## Important: YouTube handle check
-
-The optional filter requests `https://www.youtube.com/@HANDLE` from a Vercel function to avoid browser CORS restrictions. A 404 response is shown as **possible availability**, not guaranteed availability. YouTube may reserve handles, block automated requests, rate-limit traffic, or change responses. Confirm the handle in YouTube Studio before relying on it.
+Create a local `.env` file using `.env.example` as a guide and add your Gemini key. Keep `.env` private; it is excluded by `.gitignore`.
 
 ## Troubleshooting
 
-- **AI ready / API key needed:** Check that `OPENAI_API_KEY` is set in Vercel Environment Variables, then redeploy.
-- **Generation error:** Read the message shown on the page. For more detail, open Vercel → Deployments → latest deployment → Functions / Logs.
-- **401:** Check that `OPENAI_API_KEY` is correct.
-- **429:** Check OpenAI API billing, available credits, and rate limits. ChatGPT subscription access does not include API usage.
-- **400 / model error:** Check that `OPENAI_MODEL` is set to a model enabled for your API project; otherwise remove the variable to use the default `gpt-4.1-mini`.
-- **Model error:** Set `OPENAI_MODEL` to a model enabled for your OpenAI API project.
-- **Do not deploy as static-only hosting:** the `/api` serverless functions are required for AI generation and availability checks.
-
-OpenAI API usage is billed separately from a ChatGPT subscription.
+- **Gemini rejected the API key:** confirm `GEMINI_API_KEY` is spelled correctly in Vercel and redeploy.
+- **429 / quota:** the Gemini account's rate limit or free-tier quota may have been reached. Wait for reset or check the account's usage limits.
+- **Model error:** remove `GEMINI_MODEL` to use the default `gemini-flash-latest`, or set a model available to your API account.
+- **Changes not visible:** check the latest Vercel deployment is Ready and hard-refresh the website.
