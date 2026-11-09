@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <meta name="description" content="Generate creative YouTube channel names with AI." />
+  <title>YT NAMES GENERATOR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="YT Names Generator home">
+      <span class="brand-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z"/></svg></span>
+      <span class="brand-name">YT NAMES <b>GENERATOR</b></span>
+    </a>
+    <div class="top-actions">
+      <span class="api-status" id="apiStatus"><i></i> Checking AI</span>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme">
+        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        <svg class="moon" viewBox="0 0 24 24"><path d="M20.8 13A8.5 8.5 0 0 1 11 3.2 8.6 8.6 0 1 0 20.8 13Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow"><span class="spark">✦</span> YOUR CHANNEL STARTS WITH A NAME</div>
+      <h1>Find a name worth<br><span>subscribing to.</span></h1>
+      <p class="hero-copy">Fresh YouTube channel name ideas, shaped around your content and your style.</p>
+    </section>
+
+    <section class="generator-card" aria-label="Name generator">
+      <div class="section-heading">
+        <div><span class="step">01</span><h2>Build your name</h2></div>
+        <span class="ai-tag">✦ AI POWERED</span>
+      </div>
+
+      <div class="fields">
+        <label class="field">
+          <span class="field-label">CATEGORY</span>
+          <span class="select-wrap"><select id="category">
+            <option>Gaming</option><option>Editing</option><option>Lifestyle</option><option>Technology</option>
+            <option>Education</option><option>Entertainment</option><option>Vlogging</option><option>Travel</option>
+            <option>Fitness</option><option>Music</option><option>Food</option><option>Fashion</option>
+            <option>Beauty</option><option>Comedy</option><option>Motivation</option><option>Business</option>
+            <option>Animation</option><option>Minecraft</option><option>Reaction</option><option>Science</option>
+            <option>Photography</option><option>DIY &amp; Crafts</option><option>Sports</option><option>Art &amp; Design</option>
+          </select><span class="chevron">⌄</span></span>
+        </label>
+        <label class="field">
+          <span class="field-label">STYLE</span>
+          <span class="select-wrap"><select id="style">
+            <option>Modern</option><option>Unique</option><option>Classic</option><option>Minimal</option>
+            <option>Aesthetic</option><option>Bold</option><option>Creative</option><option>Professional</option>
+            <option>Futuristic</option><option>Mysterious</option><option>Funny</option><option>Luxury</option>
+            <option>Cute</option><option>Edgy</option><option>Chill</option><option>Premium</option>
+            <option>Playful</option><option>Cinematic</option><option>Techy</option><option>Elegant</option>
+          </select><span class="chevron">⌄</span></span>
+        </label>
+        <label class="field">
+          <span class="field-label">WORDS</span>
+          <span class="select-wrap"><select id="words">
+            <option value="1">One word</option><option value="2" selected>Two words</option><option value="3">Three words</option>
+          </select><span class="chevron">⌄</span></span>
+        </label>
+      </div>
+
+      <div class="availability-option">
+        <label class="check-line">
+          <input type="checkbox" id="onlyNew" />
+          <span class="custom-check"></span>
+          <span><strong>Only generate new names</strong><small>Check YouTube for existing channel pages before showing results.</small></span>
+        </label>
+        <span class="beta">BETA</span>
+      </div>
+
+      <button class="generate-btn" id="generateBtn">
+        <span class="btn-icon">✦</span><span>Generate names</span><span class="btn-arrow">→</span>
+      </button>
+      <p class="fineprint">AI-generated ideas · No name is guaranteed until YouTube confirms it</p>
+    </section>
+
+    <section class="results-section" id="resultsSection" hidden>
+      <div class="results-head">
+        <div><span class="step">02</span><h2>Your name ideas</h2><p id="resultSubtitle">Pick the one that feels right.</p></div>
+        <button class="refresh-btn" id="refreshBtn">↻ <span>Regenerate</span></button>
+      </div>
+      <div class="results-grid" id="resultsGrid"></div>
+      <div class="results-note"><span>ⓘ</span><p>Availability checks are indicative only. Confirm your preferred handle in YouTube Studio before using it.</p></div>
+    </section>
+
+    <section class="how-section">
+      <div class="how-title"><span class="step">03</span><h2>How it works</h2></div>
+      <div class="how-grid">
+        <article><span class="how-number">1</span><h3>Set your vibe</h3><p>Choose your content category, name style, and word count.</p></article>
+        <article><span class="how-number">2</span><h3>Generate ideas</h3><p>AI creates original name ideas that match your selections.</p></article>
+        <article><span class="how-number">3</span><h3>Check &amp; choose</h3><p>Review possible handle availability and pick your favourite.</p></article>
+      </div>
+    </section>
+    <footer><span>YT NAMES GENERATOR</span><span>Made for your next big idea <b>✦</b></span></footer>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
