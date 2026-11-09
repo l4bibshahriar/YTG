@@ -1,6 +1,6 @@
 # YT NAMES GENERATOR — Vercel Edition
 
-This version is structured for **GitHub → Vercel deployment**. It uses Vercel serverless functions, so there is no Express server to keep running.
+This version is structured for **GitHub → Vercel deployment**. Each successful generation returns exactly 10 names; desktop results use a 5-column grid (2 rows). It uses Vercel serverless functions, so there is no Express server to keep running.
 
 ## Project structure
 
@@ -84,7 +84,10 @@ The optional filter requests `https://www.youtube.com/@HANDLE` from a Vercel fun
 ## Troubleshooting
 
 - **AI ready / API key needed:** Check that `OPENAI_API_KEY` is set in Vercel Environment Variables, then redeploy.
-- **Function returns 500:** Open Vercel → Deployments → latest deployment → Functions / Logs.
+- **Generation error:** Read the message shown on the page. For more detail, open Vercel → Deployments → latest deployment → Functions / Logs.
+- **401:** Check that `OPENAI_API_KEY` is correct.
+- **429:** Check OpenAI API billing, available credits, and rate limits. ChatGPT subscription access does not include API usage.
+- **400 / model error:** Check that `OPENAI_MODEL` is set to a model enabled for your API project; otherwise remove the variable to use the default `gpt-4.1-mini`.
 - **Model error:** Set `OPENAI_MODEL` to a model enabled for your OpenAI API project.
 - **Do not deploy as static-only hosting:** the `/api` serverless functions are required for AI generation and availability checks.
 

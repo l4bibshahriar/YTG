@@ -89,16 +89,21 @@ async function generate() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(settings)
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Could not generate names.");
+    let data;
+    try { data = await response.json(); }
+    catch { throw new Error(`Server returned an unreadable response (HTTP ${response.status}). Check the Vercel deployment and Function Logs.`); }
+    if (!response.ok) throw new Error(data.error || `Could not generate names (HTTP ${response.status}).`);
+    if (!Array.isArray(data.names) || data.names.length !== 10) {
+      throw new Error("The generator did not return exactly 10 names. Please try again.");
+    }
     const grid = $("resultsGrid");
     data.names.forEach(name => grid.append(makeCard({ handle: name }, settings.onlyNew)));
-    $("resultSubtitle").textContent = `${data.names.length} ideas · ${settings.category} · ${settings.style}`;
+    $("resultSubtitle").textContent = `10 ideas · ${settings.category} · ${settings.style}`;
     if (settings.onlyNew) await checkNames(data.names);
   } catch (error) {
     $("resultsGrid").innerHTML = "";
-    $("resultSubtitle").textContent = "Something went wrong.";
-    toast(error.message);
+    $("resultSubtitle").textContent = "Generation failed. See the error message.";
+    toast(error.message || "Something went wrong. Check your Vercel Function Logs.");
   } finally {
     setLoading(false);
   }
