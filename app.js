@@ -84,11 +84,24 @@ async function generate() {
   $("resultsGrid").innerHTML = "";
   $("resultSubtitle").textContent = "Creating names that match your style…";
   try {
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(settings)
-    });
+    const controller = new AbortController();
+    const requestTimeout = setTimeout(() => controller.abort(), 45000);
+    let response;
+    try {
+      response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+        signal: controller.signal
+      });
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw new Error("Generation took too long. Gemini may be busy—please try again in a moment.");
+      }
+      throw error;
+    } finally {
+      clearTimeout(requestTimeout);
+    }
     let data;
     try { data = await response.json(); }
     catch { throw new Error(`Server returned an unreadable response (HTTP ${response.status}). Check the Vercel deployment and Function Logs.`); }

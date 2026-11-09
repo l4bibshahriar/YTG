@@ -22,7 +22,7 @@ A static YouTube channel-name generator frontend with Vercel serverless API rout
    - **Environments:** Production, Preview, and Development as needed
 5. Optionally add:
    - **Name:** `GEMINI_MODEL`
-   - **Value:** `gemini-flash-latest`
+   - **Value:** `gemini-3.8-flash`
 6. Save the variables and trigger a new deployment (Deployments → latest deployment → Redeploy, or push a new commit).
 
 Do not add the API key to frontend files or commit it to GitHub. Never share the key in screenshots or chats. If a key is exposed, revoke it and create a replacement.
@@ -40,5 +40,8 @@ Create a local `.env` file using `.env.example` as a guide and add your Gemini k
 
 - **Gemini rejected the API key:** confirm `GEMINI_API_KEY` is spelled correctly in Vercel and redeploy.
 - **429 / quota:** the Gemini account's rate limit or free-tier quota may have been reached. Wait for reset or check the account's usage limits.
-- **Model error:** remove `GEMINI_MODEL` to use the default `gemini-flash-latest`, or set a model available to your API account.
+- **Model error:** remove `GEMINI_MODEL` to use the default `gemini-3.8-flash`, or set a model available to your API account.
 - **Changes not visible:** check the latest Vercel deployment is Ready and hard-refresh the website.
+
+
+The generator defaults to the stable `gemini-3.8-flash` model and automatically tries `gemini-3.5-flash-lite` if the first model returns a temporary server-overload error (500/503/504). The browser also stops waiting after 45 seconds and displays a readable message.
