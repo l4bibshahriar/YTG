@@ -4,8 +4,8 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return methodNotAllowed(res);
 
   const handles = Array.isArray(req.body?.handles) ? req.body.handles : [];
-  if (!handles.length || handles.length > 18) {
-    return sendJson(res, 400, { error: "Send between 1 and 18 handles." });
+  if (!handles.length || handles.length > 10) {
+    return sendJson(res, 400, { error: "Send between 1 and 10 handles." });
   }
 
   const results = await Promise.all(handles.map(async raw => {
